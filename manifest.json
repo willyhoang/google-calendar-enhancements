@@ -1,0 +1,16 @@
+{
+  "name": "Enhanced Google Calendar",
+  "description": "Adds enhancements to Google Calendar.",
+  "version": "0.1",
+  "permissions": [
+    "activeTab"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_title": "Enhance Google Calendar features"
+  },
+  "manifest_version": 2
+}
