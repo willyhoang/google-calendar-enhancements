@@ -22,9 +22,22 @@ function addLocationInput() {
 
     whereHeader.appendChild(tileContent);
 
-    var elements = document.getElementsByClassName('event-create-container');
+    var elements = document.getElementsByClassName("event-create-container");
     var element = elements[0];
     element.insertBefore(whereHeader, element.children[2]);
 }
 
-addLocationInput();
+
+var target = document.body;
+var observer = new MutationObserver(function(mutations) {  
+  mutations.forEach(function(mutation) {
+    console.log(mutation);
+    if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].classList.value.includes("bubble")) {
+      console.log("Found a new bubble. Adding location input.");
+      addLocationInput();
+    }
+  });    
+});
+
+var config = { attributes: true, childList: true, characterData: true };
+observer.observe(target, config);
