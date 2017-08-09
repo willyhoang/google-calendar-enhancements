@@ -1,3 +1,29 @@
+function loadMapsAPI() {
+    var script = document.createElement('script');
+		var apiKey = "AIzaSyBdhbJqLe8IvJdalQIoyh8cipZTfYHiHaY" 
+    script.src = "https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&libraries=places&callback=initAutocomplete";
+    document.body.appendChild(script);
+		console.log("Loaded maps API.");
+}
+
+function initAutocomplete() {
+	// Create the autocomplete object, restricting the search to geographical
+	// location types.
+	autocomplete = new google.maps.places.Autocomplete(
+			/** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+			{types: ['geocode']});
+
+	// When the user selects an address from the dropdown, populate the address
+	// fields in the form.
+	autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+	var place = autocomplete.getPlace();
+	console.log("Filling in place: " + place)
+}
+
+
 function addLocationInput() { 
   var whereHeader = document.createElement("div");
     whereHeader.setAttribute("class", "color: #1b1b1b; font-family: Arial; font-size: 13px; clear: both;");
@@ -18,6 +44,9 @@ function addLocationInput() {
     tileContent.setAttribute("style", "height: 36px; line-height: 36px;position: relative;");
 
     var input = document.createElement("input");
+    input.setAttribute("class", "gcal-textinput");
+		input.setAttribute("id", "autocomplete");
+		input.setAttribute("placeholder", "Enter your location");
     tileContent.appendChild(input);
 
     whereHeader.appendChild(tileContent);
@@ -27,7 +56,8 @@ function addLocationInput() {
     element.insertBefore(whereHeader, element.children[2]);
 }
 
-
+console.log("Starting");
+loadMapsAPI();
 var target = document.body;
 var observer = new MutationObserver(function(mutations) {  
   mutations.forEach(function(mutation) {
