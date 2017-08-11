@@ -6,23 +6,19 @@ function loadMapsAPI() {
 		console.log("Loaded maps API.");
 }
 
-function initAutocomplete() {
-	// Create the autocomplete object, restricting the search to geographical
-	// location types.
-	autocomplete = new google.maps.places.Autocomplete(
-			/** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
-			{types: ['geocode']});
-
-	// When the user selects an address from the dropdown, populate the address
-	// fields in the form.
-	autocomplete.addListener('place_changed', fillInAddress);
-}
-
-function fillInAddress() {
+function handleLocationChange() {
 	var place = autocomplete.getPlace();
 	console.log("Filling in place: " + place)
 }
 
+function initAutocomplete() {
+	// Create the autocomplete object, with no restriction on place type
+	autocomplete = new google.maps.places.Autocomplete(
+			/** @type {!HTMLInputElement} */(document.getElementById('autocomplete')));
+
+	// When the user selects an address from the dropdown, handle the location change
+	autocomplete.addListener('place_changed', handleLocationChange);
+}
 
 function addLocationInput() { 
   var whereHeader = document.createElement("div");
@@ -65,6 +61,7 @@ var observer = new MutationObserver(function(mutations) {
     if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].classList.value.includes("bubble")) {
       console.log("Found a new bubble. Adding location input.");
       addLocationInput();
+      initAutocomplete();
     }
     if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].classList.value.includes("pac-container")) {
       console.log("Updating z-index of pac-container.");
