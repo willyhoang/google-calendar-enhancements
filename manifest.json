@@ -3,7 +3,9 @@
   "description": "Adds enhancements to Google Calendar.",
   "version": "0.1",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "https://maps.google.com/*",
+    "https://maps.googleapis.com/*"
   ],
   "content_scripts": [{
     "matches": ["https://calendar.google.com/*"],

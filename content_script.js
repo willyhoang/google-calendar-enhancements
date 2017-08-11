@@ -1,7 +1,7 @@
 function loadMapsAPI() {
     var script = document.createElement('script');
 		var apiKey = "AIzaSyBdhbJqLe8IvJdalQIoyh8cipZTfYHiHaY" 
-    script.src = "https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&libraries=places&callback=initAutocomplete";
+    script.src = "https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&libraries=places";
     document.body.appendChild(script);
 		console.log("Loaded maps API.");
 }
@@ -65,6 +65,13 @@ var observer = new MutationObserver(function(mutations) {
     if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].classList.value.includes("bubble")) {
       console.log("Found a new bubble. Adding location input.");
       addLocationInput();
+    }
+    if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].classList.value.includes("pac-container")) {
+      console.log("Updating z-index of pac-container.");
+      var pacContainer = document.getElementsByClassName("pac-container")[0];
+      var oldStyle = pacContainer.getAttribute("style");
+      pacContainer.setAttribute("style", oldStyle + " z-index: 2000;");
+
     }
   });    
 });
