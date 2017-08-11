@@ -11,13 +11,27 @@ function handleLocationChange() {
 	console.log("Filling in place: " + place)
 }
 
+var autocomplete;
+var autocompleteListener;
 function initAutocomplete() {
-	// Create the autocomplete object, with no restriction on place type
-	autocomplete = new google.maps.places.Autocomplete(
-			/** @type {!HTMLInputElement} */(document.getElementById('autocomplete')));
+  console.log("Initializing Autocomplete");
+  // Create the autocomplete object, with no restriction on place type
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')));
 
-	// When the user selects an address from the dropdown, handle the location change
-	autocomplete.addListener('place_changed', handleLocationChange);
+  // When the user selects an address from the dropdown, handle the location change
+  autocompleteListener = autocomplete.addListener('place_changed', handleLocationChange);
+}
+
+function removeAutocomplete() {
+  if (autocomplete !== undefined) {
+    console.log("Remove Autocomplete listener");
+    google.maps.event.removeListener(autocompleteListener);
+    console.log("Remove Autocomplete");
+    google.maps.event.clearInstanceListeners(autocomplete);
+    var pacContainers = document.getElementByClassName(".pac-container");
+    var pacContainer = pacContainers[0].remove();
+  }
 }
 
 function addLocationInput() { 
@@ -65,10 +79,12 @@ var observer = new MutationObserver(function(mutations) {
     }
     if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].classList.value.includes("pac-container")) {
       console.log("Updating z-index of pac-container.");
-      var pacContainer = document.getElementsByClassName("pac-container")[0];
+      var pacContainer = mutation.addedNodes[0];
       var oldStyle = pacContainer.getAttribute("style");
       pacContainer.setAttribute("style", oldStyle + " z-index: 2000;");
-
+    }
+    if (mutation.removedNodes.length > 0 && mutation.removedNodes[0].classList.value.includes("bubble")) {
+      removeAutocomplete();
     }
   });    
 });
