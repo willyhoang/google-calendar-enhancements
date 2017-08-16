@@ -36,7 +36,8 @@ function removeAutocomplete() {
 
 function addLocationInput() { 
   var whereHeader = document.createElement("div");
-    whereHeader.setAttribute("class", "color: #1b1b1b; font-family: Arial; font-size: 13px; clear: both;");
+    whereHeader.setAttribute("class", "tile location-tile");
+    whereHeader.setAttribute("style", "color: #1b1b1b; font-family: Arial; font-size: 13px; clear: both;");
 
     var tileLabel = document.createElement("div");
     tileLabel.setAttribute("class", "title-label");
@@ -66,6 +67,18 @@ function addLocationInput() {
     element.insertBefore(whereHeader, element.children[2]);
 }
 
+function updateTitleWithLocation() {
+  console.log("Updating title with location.");
+  var titleInput = document.querySelector(".event-create-container .title-tile .tile-content input")
+  var locationInput = document.querySelector(".event-create-container .location-tile .tile-content input");
+  titleInput.value = titleInput.value + ' at ' + locationInput.value;
+}
+
+function addCreateOnClickHandler() {
+  var createButton = document.getElementsByClassName('goog-inline-block jfk-button jfk-button-action create-button jfk-button-clear-outline')[0];
+  createButton.addEventListener('click', updateTitleWithLocation)
+}
+
 console.log("Starting");
 loadMapsAPI();
 var target = document.body;
@@ -76,6 +89,7 @@ var observer = new MutationObserver(function(mutations) {
       console.log("Found a new bubble. Adding location input.");
       addLocationInput();
       initAutocomplete();
+      addCreateOnClickHandler();
     }
     if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].classList.value.includes("pac-container")) {
       console.log("Updating z-index of pac-container.");
