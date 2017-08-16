@@ -69,9 +69,10 @@ function addLocationInput() {
 
 function updateTitleWithLocation() {
   console.log("Updating title with location.");
-  var titleInput = document.querySelector(".event-create-container .title-tile .tile-content input")
-  var locationInput = document.querySelector(".event-create-container .location-tile .tile-content input");
-  titleInput.value = titleInput.value + ' at ' + locationInput.value;
+  var titleInput = document.querySelector(".event-create-container .title-tile .tile-content input");
+  var place = autocomplete.getPlace();
+  var locationNameAndAddress = place.name + ", " + place.formatted_address;
+  titleInput.value = titleInput.value + " at " + locationNameAndAddress;
 }
 
 function addCreateOnClickHandler() {
