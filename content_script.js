@@ -8,7 +8,7 @@ function loadMapsAPI() {
 
 function handleLocationChange() {
 	var place = autocomplete.getPlace();
-	console.log("Filling in place: " + place)
+	console.log("Filling in place: " + place.formatted_address)
 }
 
 var autocomplete;
